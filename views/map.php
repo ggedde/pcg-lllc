@@ -76,7 +76,7 @@ foreach ($vars->entries as &$entry) {
             north: 43.0,   // northern border
             south: 34.0,   // southern border
             west: -123.0,  // western border
-            east: -110.0   // eastern border
+            east: -111.0   // eastern border
         };
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -92,14 +92,13 @@ foreach ($vars->entries as &$entry) {
                 style: google.maps.ZoomControlStyle.LARGE 
             },
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            // zoom: wWidth > 600 ? 4 : (wWidth > 500 ? 3.6 : 3),
             center: { lat: 39.0, lng: -116.75 },
-            zoom: 5.8,
+            zoom: wWidth > 600 ? 5.8 : 5,
             restriction: {
                 latLngBounds: nevadaBounds,
                 // strictBounds: true,
             },
-            minZoom: 5.5,
+            minZoom: 5,
             maxZoom: 10,
             styles: whiteMapStyle
         });
@@ -113,7 +112,7 @@ foreach ($vars->entries as &$entry) {
         });
 
         google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-            map.setZoom(6); // or whatever zoom level you want
+            map.setZoom(wWidth > 600 ? 5.8 : 5); // or whatever zoom level you want
         });
 
         map.fitBounds(nevadaBounds);
