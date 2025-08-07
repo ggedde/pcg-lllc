@@ -107,7 +107,7 @@ foreach ($vars->entries as &$entry) {
             styles: whiteMapStyle
         });
 
-        map.data.loadGeoJson('https://gis.dot.nv.gov/agsphs/rest/services/GeoHub/State_of_Nevada_Boundary/MapServer/0/query?where=1%3D1&outFields=*&f=geojson');
+        map.data.loadGeoJson('<?= APP_HOST.ASSETS_URI; ?>/nevada.json');
 
         map.data.setStyle({
             fillColor: '#e4e4e4',
