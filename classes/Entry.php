@@ -107,8 +107,14 @@ class Entry
                 if (isset($csvHeadings['library_name']) && !empty($entryArr[$csvHeadings['library_name']])) {
                     $this->name = $this->format($entryArr[$csvHeadings['library_name']]);
                 }
+                if (isset($csvHeadings['name']) && !empty($entryArr[$csvHeadings['name']])) {
+                    $this->name = $this->format($entryArr[$csvHeadings['name']]);
+                }
                 if (isset($csvHeadings['events']) && !empty($entryArr[$csvHeadings['events']])) {
                     $this->url = trim($entryArr[$csvHeadings['events']]);
+                }
+                if (isset($csvHeadings['url']) && !empty($entryArr[$csvHeadings['url']])) {
+                    $this->url = trim($entryArr[$csvHeadings['url']]);
                 }
                 if (isset($csvHeadings['latitude']) && !empty($entryArr[$csvHeadings['latitude']])) {
                     $this->latitude = $this->format($entryArr[$csvHeadings['latitude']]);
