@@ -1,0 +1,32 @@
+####### Local Config Files #######
+/tmp/
+/log
+
+####### Asset Files #######
+*.psd
+*.ai
+*.ae
+*.zip
+
+####### Misc Files #######
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+*[Tt]humbs.db
+*.Trashes
+*.lock
+*.DS_Store
+*.swp
+*.out
+*.log
+*.sql
+error_log
+access_log
+.sass-cache
+.env
+package-lock.json
+node_modules
+local-config.js

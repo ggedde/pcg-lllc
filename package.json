@@ -1,0 +1,17 @@
+{
+  "name": "mektheme",
+  "version": "1.0.0",
+  "description": "MapWidget",
+  "scripts": {
+    "watch": "node_modules/.bin/sass --watch --style compressed scss/main.scss:public/assets/main.min.css",
+    "build": "node_modules/.bin/sass --precision=5 --style compressed scss/main.scss public/assets/main.min.css",
+    "sync": "node_modules/.bin/browser-sync start --config local-config.js",
+    "dev": "npm run watch | npm run sync"
+  },
+  "dependencies": {
+    "@ggedde/spry-css": "^2.1.2",
+    "browser-sync": "^2.27.11",
+    "chokidar-cli": "^3.0.0",
+    "sass": "^1.57.1"
+  }
+}

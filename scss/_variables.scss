@@ -1,0 +1,48 @@
+// Specify each breakpoint size
+$breakpoints: (
+    md: 53rem,
+    // lg: 80rem,
+);
+
+// Specify each breakpoint gap size. <section> tags with get padding based on gap size.
+// You must include one for each Breakpoint otherwise it will result in a Compile Error.
+$gaps: (
+    default: 1.25rem,
+    md: 2rem,
+    // lg: 2.25rem,
+);
+
+// Specify each color used in color-, bg-, border-, btn-
+$colors: (
+    "white":       #ffffff,
+    "light":       #efefef,
+    "medium":      #999999,
+    "dark":        #444444,
+    "primary":     #1B2465,
+    "secondary":   #E48D3D,
+    "warning":     #df8a22,
+    "error":       #d52929,
+    "success":     #09c347,
+    "text":        #566067,
+    "transparent": transparent,
+);
+
+// Specify each type tag and class like <h3> and .h3 etc.
+$types: (
+    body: ( font-size: clamp(.8rem, 4vw, 1.0rem), font-weight: 300, color: map-get($colors, 'text'), line-height: 1.4 ),
+    h1: ( font-size: clamp(1.9rem, 9vw, 3.4rem), font-weight: 400, line-height: 1.20 ),
+    h2: ( font-size: clamp(1.5rem, 7.5vw, 2.7rem), font-weight: 300, line-height: 1.25 ),
+    h3: ( font-size: clamp(1.2rem, 6.8vw, 2.2rem), font-weight: 300, line-height: 1.30 ),
+    h4: ( font-size: clamp(1rem, 6.3vw, 1.6rem), font-weight: 300, line-height: 1.35 ),
+    h5: ( font-size: clamp(.8rem, 6vw, 1.2rem), font-weight: 300, line-height: 1.5 ),
+    h6: ( font-size: clamp(.7rem, 6vw, 1.0rem), font-weight: 300, line-height: 1.4 ),
+);
+
+// Specify each spacing that applies to Margin and Padding.  Ex .m0, .m1, .mx3, .pt3, .mtn3, etc
+$spacing: (
+    0: 0rem,
+    1: .5rem, 
+    2: 1rem, 
+    3: 2rem, 
+    4: 4rem
+);
