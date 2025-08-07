@@ -73,10 +73,10 @@ foreach ($vars->entries as &$entry) {
         ];
 
         const nevadaBounds = {
-            north: 43.0,   // northern border
-            south: 34.0,   // southern border
-            west: -123.0,  // western border
-            east: -111.0   // eastern border
+            north: 47.0,   // northern border
+            south: 29.0,   // southern border
+            west: -126.0,  // western border
+            east: -108.0   // eastern border
         };
 
         map = new google.maps.Map(document.getElementById('map'), {
