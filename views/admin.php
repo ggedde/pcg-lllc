@@ -14,9 +14,6 @@ foreach ($entries as $entry) {
 }
 
 $categories = !empty($entries) ? array_values(array_unique(array_column($entries, 'category'))) : [];
-if (!in_array('Agriculture', $categories, true)) {
-    $categories[] = 'Agriculture';
-}
 sort($categories);
 
 $googleApiKey = Database::getSetting('google_api_key');

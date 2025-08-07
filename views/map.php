@@ -4,10 +4,6 @@
  */
 
 $categories = !empty($vars->entries) ? array_values(array_unique(array_column($vars->entries, 'category'))) : [];
-if (!in_array('Agriculture', $categories, true)) {
-    $categories[] = 'Agriculture';
-}
-
 sort($categories);
 
 foreach ($categories as $categoryIndex => $category) {
