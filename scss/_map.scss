@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Alphakind'; /* Choose a descriptive name for your font */
+    src: url('/assets/Alphakind.ttf') format('truetype'); /* Specify the path to your .ttf file */
+    /* Optional: Add other font properties like font-weight, font-style if needed */
+}
+
 html,
 body {
     height: 100%;
@@ -27,6 +33,10 @@ html.map-html {
 
     .gm-style-iw-ch {
         display: none;
+    }
+
+    .gm-style .gm-style-iw-c {
+        border-radius: 16px !important;
     }
 
     .gm-ui-hover-effect {
@@ -66,6 +76,9 @@ html.map-html {
 }
 
 .infowindow {
+    text-align: center;
+    padding-bottom: 1.6em;
+
     h5 {
         font-weight   : 700;
         color         : map-get($colors, 'secondary');
@@ -77,19 +90,30 @@ html.map-html {
     }
 
     h6 {
-        background-color: map-get($colors, 'primary');
+        background-color: map-get($colors, 'green');
         color           : white;
-        padding         : 0.5rem 1rem;
-        font-size       : 15px !important;
+        padding         : 0.6rem 1rem;
+        font-size       : 16px !important;
         letter-spacing  : .0375rem;
-        font-weight     : 500;
+        // font-weight     : 500;
         padding-right   : 40px !important;
     }
 
-    p {
-        color      : map-get($colors, 'primary');
-        font-weight: 500;
+    .display-field-address {
+        font-size: 1.25em;
+        max-width: 250px;
+        text-wrap: balance;
+        margin: auto;
+    }
 
+    .display-field-url .btn {
+        padding: 0.5rem 1rem;
+        min-height: 26px !important;
+        border-radius: 5px;
+        font-family: 'Alphakind';
+    }
+
+    p {
         +p {
             margin-top: .25rem;
         }

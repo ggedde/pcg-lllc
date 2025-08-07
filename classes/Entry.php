@@ -189,6 +189,7 @@ class Entry
      */
     public function format($value)
     {
+        $value = str_replace(' ', ' ', $value);
         $value = preg_replace('/[^0-9a-zA-Z\.\-\,\$\/\&\ ]/m', '', $value);
         return trim(mb_convert_encoding(trim($value), 'UTF-8', 'UTF-8'));
     }

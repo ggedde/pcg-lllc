@@ -18,7 +18,7 @@ foreach ($vars->entries as &$entry) {
 }
 
 ?>
-<body id="app" @click="bodyClick(event)" v-cloak>
+<body id="app" v-cloak>
     <div class="map-container">
         <div id="map" style="height:100%;width:100%;"></div>
     </div>
@@ -86,6 +86,7 @@ foreach ($vars->entries as &$entry) {
             disableDefaultUI: true, // a way to quickly hide all controls
             mapTypeControl: false,
             scaleControl: false,
+            scrollwheel: false,
             zoomControl: true,
             zoomControlOptions: {
                 style: google.maps.ZoomControlStyle.LARGE 
@@ -139,7 +140,7 @@ foreach ($vars->entries as &$entry) {
                 content: '<div class="infowindow">'+
                     '<h6 class="mb-2">'+trimLength(entries[e].name, 60)+'</h6>'+
                     '<p class="display-field-address">'+entries[e].address+'</p>'+
-                    '<p class="display-field-url"><a class="button" target="_blank" href="'+entries[e].url+'">Click Here For Events</a></p>'+
+                    '<p class="display-field-url pt-1"><a class="btn btn-secondary color-purple bold" target="_blank" href="'+entries[e].url+'">Click Here For Events</a></p>'+
                 '</div>',
             });
             infoWindows.push(infoWindow);
@@ -172,15 +173,14 @@ foreach ($vars->entries as &$entry) {
                     for(var i in infoWindows) {
                         infoWindows[i].close();
                     }
-                    infoWindow.open(map,marker);
+                    infoWindow.open({
+                        anchor: marker,
+                        shouldFocus: false
+                    });
                 };
             })(marker,infoWindow,infoWindows));
 
             markers.push(marker);
-            // set click event for outside of map use
-            window.clickMarker = function(i) {
-                google.maps.event.trigger(markers[i], 'click');
-            };
         }
 
         noLocations();
@@ -301,27 +301,6 @@ foreach ($vars->entries as &$entry) {
         clearFilters() {
             this.selectedCategory = null;
             this.updateLocations();
-        },
-        bodyClick(event) {
-            if (event.target.classList.contains('mobile-accordion-btn') || event.target.parentElement.classList.contains('mobile-accordion-btn')) {
-                return;
-            }
-            if (event.target.tagName === 'BUTTON' && event.target.classList.contains('btn')) {
-                event.target.blur();
-            }
-            document.querySelectorAll('label.toggle.open input').forEach(elem => {
-                if (elem !== event.target || (event.target.tagName === 'BUTTON' && event.target.classList.contains('btn'))) {
-                    elem.checked = false;
-                    elem.parentElement.classList.remove('open');
-                }
-            });
-        },
-        toggleChanged(event) {
-            if (event.target.checked) {
-                event.target.parentElement.classList.add('open');
-            } else {
-                event.target.parentElement.classList.remove('open');
-            }
         }
     }).mount('#app');
 </script>
