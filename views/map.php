@@ -18,20 +18,9 @@ foreach ($vars->entries as &$entry) {
 }
 
 ?>
-<body id="app" v-cloak>
+<body>
     <div class="map-container">
         <div id="map" style="height:100%;width:100%;"></div>
-    </div>
-    <div class="modal blur" :class="{show: showNoLocations}" @click="showNoLocations=false">
-        <div class="modal-content" style="max-width: 400px;">
-            <div class="card card-light bg-light shadow color-text border rounded">
-                <header>
-                    <button type="button" class="btn btn-link btn-close circle mr-1 mt-1 inset-top inset-right" @click="showNoLocations=false"></button>
-                    <h4 class="px-2 pr-3">No Locations Found</h4>
-                </header>
-                <p class="p-3">Try changing the filters and try again.</p>
-            </div>
-        </div>
     </div>
 <script>
 
@@ -64,12 +53,16 @@ foreach ($vars->entries as &$entry) {
 
         const whiteMapStyle = [
             { elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
-            { elementType: 'labels', stylers: [{ visibility: 'off' }] },
-            { featureType: 'administrative', stylers: [{ visibility: 'off' }] },
+            { elementType: 'labels', stylers: [{ visibility: 'on' }] },
+            { featureType: 'administrative', stylers: [{ visibility: 'on' }] },
             { featureType: 'poi', stylers: [{ visibility: 'off' }] },
-            { featureType: 'road', stylers: [{ visibility: 'off' }] },
+            { featureType: 'road', elementType: 'geometry', stylers: [{ visibility: 'on' }, { color: '#cccccc' }] },
             { featureType: 'transit', stylers: [{ visibility: 'off' }] },
-            { featureType: 'water', stylers: [{ color: '#ffffff' }] }
+            { featureType: 'water', stylers: [{ color: '#ffffff' }] },
+            {
+  "elementType": "labels.text.fill",
+  "stylers": [ { "color": "#888888" } ]
+}
         ];
 
         const nevadaBounds = {
@@ -92,14 +85,14 @@ foreach ($vars->entries as &$entry) {
                 style: google.maps.ZoomControlStyle.LARGE 
             },
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            center: { lat: 39.0, lng: -116.75 },
-            zoom: wWidth > 600 ? 5.8 : 5,
+            // center: { lat: 39.0, lng: -116.75 },
+            // zoom: wWidth > 600 ? 5.8 : 5,
             restriction: {
                 latLngBounds: nevadaBounds,
                 // strictBounds: true,
             },
             minZoom: 5,
-            maxZoom: 10,
+            maxZoom: 13,
             styles: whiteMapStyle
         });
 
@@ -111,11 +104,11 @@ foreach ($vars->entries as &$entry) {
             strokeWeight: 2
         });
 
-        google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-            map.setZoom(wWidth > 600 ? 5.8 : 5); // or whatever zoom level you want
-        });
+        // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+        //     map.setZoom(wWidth > 600 ? 5.8 : 5); // or whatever zoom level you want
+        // });
 
-        map.fitBounds(nevadaBounds);
+        // map.fitBounds(nevadaBounds);
         setLocations();
     }
 
@@ -127,6 +120,8 @@ foreach ($vars->entries as &$entry) {
     }
 
     function setLocations() {
+
+        var bounds = new google.maps.LatLngBounds();
 
         for (var e in entries) {
 
@@ -180,73 +175,21 @@ foreach ($vars->entries as &$entry) {
             })(marker,infoWindow,infoWindows));
 
             markers.push(marker);
+            bounds.extend(marker.getPosition());
+
         }
 
-        noLocations();
-    }
-
-    function GoogleMapFilterMarkers(state, category, min, max) {
-
-        mapFilteredLocations = [];
-
-        if (typeof state === 'undefined') {
-            state = null;
-        }
-
-        if (typeof category === 'undefined') {
-            category = null;
-        }
-
-        if (typeof min === 'undefined') {
-            min = null;
-        }
-
-        if (typeof max === 'undefined') {
-            max = null;
-        }
-
-        clearMarkers();
-
-        var bounds = new google.maps.LatLngBounds();
-
-        for (var e in markers) {
-
-            if (!markers[e]) {
-                continue; // Don't load ones with errors
+        const listener = map.addListener("bounds_changed", function () {
+            const maxZoom = 7;
+            if (map.getZoom() > maxZoom) {
+                map.setZoom(maxZoom);
             }
+            google.maps.event.removeListener(listener); // Run only once
+        });
 
-            var entryId = markers[e].entryId;
+        map.fitBounds(bounds);
 
-            if (!entries[entryId].latitude || !entries[entryId].longitude || entries[entryId].error) {
-                continue; // Don't load ones with errors
-            }
-
-            if (state && entries[entryId].state !== state) {
-                continue;
-            }
-
-            if (category && entries[entryId].category !== category) {
-                continue;
-            }
-
-            if (min && entries[entryId].amount < min) {
-                continue;
-            }
-
-            if (max && entries[entryId].amount > max) {
-                continue;
-            }
-
-            markers[e].setMap(map);
-            bounds.extend(markers[e].getPosition());
-            mapFilteredLocations.push(entries[entryId]);
-        }
-
-        if (mapFilteredLocations.length) {
-            map.fitBounds(bounds);
-        } else {
-            noLocations();
-        }
+        // noLocations();
     }
 
     function noLocations()
@@ -262,60 +205,6 @@ foreach ($vars->entries as &$entry) {
         }
     }
 
-    function getKeyByValue(object, value) {
-        return Object.keys(object).find(key => object[key] === value);
-    }
-
 </script>
 <script type='text/javascript' src='//maps.googleapis.com/maps/api/js?key=<?= $vars->googleApiKey ? $vars->googleApiKey : ''; ?>&ver=20180820&callback=initMap'></script>
-<script type="module">
-    import { createApp } from '<?= ASSETS_URI; ?>/petite-vue.module.min.js';
-    createApp({
-        categories: categories,
-        selectedCategory: null,
-        showNoLocations: false,
-        isFiltered: true,
-        filteredLocations: [],
-        selectCategory(category) {
-            this.selectedCategory = category;
-            this.updateLocations();
-        },
-        updateLocations() {
-            this.filteredLocations = [];
-            var hasLocations = false;
-            entries.forEach(entry => {
-                if (
-                    (!this.selectedCategory || entry.category === this.selectedCategory)) {
-                    hasLocations = true;
-                }
-            });
-
-            if (!hasLocations) {
-                this.showNoLocations = true;
-            }
-
-            GoogleMapFilterMarkers(this.selectedState, this.selectedCategory, this.selectedMin, (this.selectedMax ? this.selectedMax : 10000000000000));
-            this.filteredLocations = mapFilteredLocations;
-        },
-        clearFilters() {
-            this.selectedCategory = null;
-            this.updateLocations();
-        }
-    }).mount('#app');
-</script>
-<style>
-    .display-field-program {
-        margin-top: 0;
-        display: <?php echo (in_array('program', $vars->displayFields, true)) ? 'block' : 'none'; ?>;
-    }
-    .display-field-congressional-district {
-        display: <?php echo (in_array('congressional_district', $vars->displayFields, true)) ? 'block' : 'none'; ?>;
-    }
-    .display-field-agency {
-        display: <?php echo (in_array('agency', $vars->displayFields, true)) ? 'block' : 'none'; ?>;
-    }
-    .display-field-category {
-        display: <?php echo (in_array('category', $vars->displayFields, true)) ? 'block' : 'none'; ?>;
-    }
-</style>
 </body>

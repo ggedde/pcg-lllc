@@ -417,7 +417,16 @@ class Database
             unset($entry->categoryColor);
         }
 
-        $csv = str_replace('CongressionalDistrict', 'Congressional District', implode(',', array_map('ucwords', array_keys((array) $entries[0]))))."\n";
+        $headings = implode(',', array_map('ucwords', array_keys((array) $entries[0])));
+
+        $replacements = [
+            'Name' => 'Library Name',
+            'Url' => 'Events',
+        ];
+
+        $headings = str_replace(array_keys($replacements), $replacements, $headings);
+
+        $csv = $headings."\n";
 
         if ($empty) {
             for ($i = 0; $i < 10; $i++) {
