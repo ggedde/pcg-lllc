@@ -59,10 +59,7 @@ foreach ($vars->entries as &$entry) {
             { featureType: 'road', elementType: 'geometry', stylers: [{ visibility: 'on' }, { color: '#cccccc' }] },
             { featureType: 'transit', stylers: [{ visibility: 'off' }] },
             { featureType: 'water', stylers: [{ color: '#ffffff' }] },
-            {
-  "elementType": "labels.text.fill",
-  "stylers": [ { "color": "#888888" } ]
-}
+            { elementType: 'labels.text.fill', stylers: [ { "color": "#888888" } ] }
         ];
 
         const nevadaBounds = {
@@ -92,7 +89,7 @@ foreach ($vars->entries as &$entry) {
                 // strictBounds: true,
             },
             minZoom: 5,
-            maxZoom: 13,
+            maxZoom: 16,
             styles: whiteMapStyle
         });
 
